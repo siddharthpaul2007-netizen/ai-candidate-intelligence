@@ -10,6 +10,7 @@ import { OpinionRevisionsView } from "@/components/OpinionRevisionsView";
 import { FinalDecisionPanel } from "@/components/FinalDecisionPanel";
 import { DocumentUploadModal } from "@/components/DocumentUploadModal";
 import { EvaluationData, EvidenceCitation } from "@/types/evaluation";
+import { API_BASE } from "@/lib/api";
 
 export default function Home() {
   const [data, setData] = useState<EvaluationData | null>(null);
@@ -21,7 +22,7 @@ export default function Home() {
   const loadDemoData = async (candidate: string = "A") => {
     setLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/evaluations/demo?candidate=${candidate}`, { method: "POST" });
+      const res = await fetch(`${API_BASE}/api/evaluations/demo?candidate=${candidate}`, { method: "POST" });
       if (res.ok) {
         const json: EvaluationData = await res.json();
         setData(json);
@@ -37,7 +38,7 @@ export default function Home() {
 
   const createNewEvaluation = async (): Promise<number | null> => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/evaluations", {
+      const res = await fetch(`${API_BASE}/api/evaluations`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -70,7 +71,7 @@ export default function Home() {
     if (!evalId) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/evaluations/${evalId}/process`, {
+      const res = await fetch(`${API_BASE}/api/evaluations/${evalId}/process`, {
         method: "POST"
       });
       if (res.ok) {

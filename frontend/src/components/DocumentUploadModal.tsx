@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { CandidateDocument } from "@/types/evaluation";
+import { API_BASE } from "@/lib/api";
 
 interface Props {
   evaluationId: number | null;
@@ -104,7 +105,7 @@ export const DocumentUploadModal: React.FC<Props> = ({
       formDataJd.append("doc_type", "job_description");
       if (jdMode === "file" && jdFile) formDataJd.append("file", jdFile);
       else formDataJd.append("text_content", jdText);
-      const jdRes = await fetch(`http://127.0.0.1:8000/api/evaluations/${freshEvalId}/upload`, { method: "POST", body: formDataJd });
+      const jdRes = await fetch(`${API_BASE}/api/evaluations/${freshEvalId}/upload`, { method: "POST", body: formDataJd });
       if (!jdRes.ok) throw new Error("Failed to upload Job Description");
 
       setStatusMsg("Uploading Resume…");
@@ -112,7 +113,7 @@ export const DocumentUploadModal: React.FC<Props> = ({
       formDataResume.append("doc_type", "resume");
       if (resumeMode === "file" && resumeFile) formDataResume.append("file", resumeFile);
       else formDataResume.append("text_content", resumeText);
-      const resumeRes = await fetch(`http://127.0.0.1:8000/api/evaluations/${freshEvalId}/upload`, { method: "POST", body: formDataResume });
+      const resumeRes = await fetch(`${API_BASE}/api/evaluations/${freshEvalId}/upload`, { method: "POST", body: formDataResume });
       if (!resumeRes.ok) throw new Error("Failed to upload Resume");
 
       setStatusMsg("Uploading Interview Transcript…");
@@ -120,7 +121,7 @@ export const DocumentUploadModal: React.FC<Props> = ({
       formDataTranscript.append("doc_type", "transcript");
       if (transcriptMode === "file" && transcriptFile) formDataTranscript.append("file", transcriptFile);
       else formDataTranscript.append("text_content", transcriptText);
-      const transcriptRes = await fetch(`http://127.0.0.1:8000/api/evaluations/${freshEvalId}/upload`, { method: "POST", body: formDataTranscript });
+      const transcriptRes = await fetch(`${API_BASE}/api/evaluations/${freshEvalId}/upload`, { method: "POST", body: formDataTranscript });
       if (!transcriptRes.ok) throw new Error("Failed to upload Interview Transcript");
 
       setStatusMsg("Running multi-agent evaluation pipeline…");
